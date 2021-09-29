@@ -1,12 +1,25 @@
 name: learn-github-actions
-on: [push]
+on: 
+  push:
+    branches:
+      - "api"
 jobs:
-  check-bats-version:
+  Display:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Display
+        run: echo "Hello I am trigerring workflow in dotnet repo"
+      
+  Trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: convictional/trigger-workflow-and-wait@v1.3.0
         with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+          owner: SauravThakur-hub
+          repo: dotnet
+          github_token: ${{ secrets.G_DN_ACCESS_TOKEN }}
+          workflow_file_name: main.yml
+          ref: master  
